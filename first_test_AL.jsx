@@ -11,29 +11,32 @@ var swifts = ["Holden", "Jessamyn", "Christopher", "Mittens", "Lucy"];
 var gridNumber = 10;
 var gutterWidth = 10;
 var grid = gridNumber - 1;
-b.println("Grid:" + grid)
-
-/**
- * this function takes a value between
- * [0,1] inclusive and returns the unit value that
- * that percentage corresponds to.
- */
- var artBoardBaseX = 0;
-function cols( t ) {
-	return artBoardBaseX + t * b.width;
-}
-
-function gutterLeft( t ) {
-	return cols( t ) - (t * gutterWidth); 
-}
-
-function gutterRight( t ) {
-	return cols( t ) + ((1 - t) * gutterWidth);
-}
+b.println("Grid:" + grid);
 
 function draw() {
 
 	b.doc();
+
+	
+
+	/**
+	 * this function takes a value between
+	 * [0,1] inclusive and returns the unit value that
+	 * that percentage corresponds to.
+	 */
+	 var artBoardBaseX = 0;
+	function cols( t ) {
+		var width = b.width;
+		return artBoardBaseX + t * width;
+	}
+
+	function gutterLeft( t ) {
+		return cols( t ) - (t * gutterWidth); 
+	}
+
+	function gutterRight( t ) {
+		return cols( t ) + ((1 - t) * gutterWidth);
+	}
 	
 	//var jsonData = b.JSON.decode( jsonString );
 	
@@ -82,34 +85,39 @@ function draw() {
 
 	//Create margins using van der graff canon
 	//b.margins(b.height / grid, (b.width / (grid/2))+(leading/ratio), (b.height / (grid/2))+leading, b.width / grid);
-	b.margins(b.height / grid, b.width / (grid/2), b.height / (grid/2), b.width / grid);
+	//b.margins(b.height / grid, b.width / (grid/2), b.height / (grid/2), b.width / grid);
 
 	//For loop for guides
-	var xGuides = b.width / grid;
-	var yGuides = b.height / grid;
+	var height = b.height + gutterWidth * 2;
+	var width = b.width + gutterWidth * 2;
+
+	var xGuides = width / grid;
+	var yGuides = height / grid;
 
 	var gutterNumber = grid - 1;
 	b.println("Number of gutters: " + gutterNumber);
 
-	var gutterHeight = leading;
-	b.println("Gutter height: " + gutterHeight);
+	// var gutterHeight = leading;
+	// b.println("Gutter height: " + gutterHeight);
 
-	var vertGridUnit = pageMinusGutters / gutterNumber;
-	b.println("Vert Grid unit: " + vertGridUnit);
+	// var vertGridUnit = pageMinusGutters / gutterNumber;
+	// b.println("Vert Grid unit: " + vertGridUnit);
 
-	var gutterWidth = leading / ratio;
-	b.println("Gutter width: " + gutterWidth);
+	// var gutterWidth = leading / ratio;
+	// b.println("Gutter width: " + gutterWidth);
 
-	var x = gutterWidth * gutterNumber;
-	var pageMinusGutters = b.width - x;
-	b.println("Page width minus gutters: " + pageMinusGutters);
+	// var x = gutterWidth * gutterNumber;
+	// var pageMinusGutters = b.width - x;
+	// b.println("Page width minus gutters: " + pageMinusGutters);
 
-	var insideGuides = pageMinusGutters / grid;
+	// var insideGuides = pageMinusGutters / grid;
 
-	var y = gutterHeight * gutterNumber;
+	// var y = gutterHeight * gutterNumber;
+
+
 
 		//Primary grid structure
-	for (var i = 0; i < grid; i++) {
+	for (var i = 0; i < gridNumber; i++) {
 		//b.guideX(xGuides + xGuides*i) ;
 		// b.guideY(yGuides + yGuides*i) ;
 		// b.guideX((xGuides + xGuides*i) + ((leading / ratio)/2));
@@ -117,10 +125,14 @@ function draw() {
 		// b.guideX((xGuides + xGuides*i) - ((leading / ratio)/2));
 		// b.guideY((yGuides + yGuides*i) - (leading/2));
 
-		// b.guideY((yGuides + yGuides*i) + ((leading)*(i/grid)));
-		// b.guideY((yGuides + yGuides*i) - ((leading)*((grid-i)/grid)));
-		// // var right = ((leading)*(i/grid));
-		// // b.println("This is on the right: " + right);
+		b.guideY((yGuides*i) - ((gutterWidth)*(i/gridNumber)) - gutterWidth);
+		b.guideY((yGuides*i) + ((gutterWidth)*((grid-i)/gridNumber)) - gutterWidth);
+
+		b.guideX((xGuides*i) - ((gutterWidth)*(i/gridNumber)) - gutterWidth);
+		b.guideX((xGuides*i) + ((gutterWidth)*((grid-i)/gridNumber)) - gutterWidth);
+
+		var right = ((gutterWidth)*(i/gridNumber));
+		b.println("This is on the right: " + right);
 		// var test = yGuides * i;
 		// b.println(test);
 
@@ -128,21 +140,23 @@ function draw() {
 		// b.guideX((xGuides + xGuides*i) - ((leading / ratio)*((grid-i)/grid)));
 	}
 
-	for (var i = 0; i <= grid; i++) {
+// A little to abstract for our current level of javascript knowledge
 
-		var t = i * (1 / gridNumber); 
+	// for (var i = 0; i <= grid; i++) {
 
-		b.println( "iteration: " + i + ", t = " + t );
-		b.println( "gutterLeft("+ t +") = " + gutterLeft( t ) );
-		b.println( "gutterRight("+ t +") = " + gutterRight( t ) );
+	// 	var t = i * (1 / gridNumber); 
 
-		b.guideX( gutterLeft( t ) );
+	// 	b.println( "iteration: " + i + ", t = " + t );
+	// 	b.println( "gutterLeft("+ t +") = " + gutterLeft( t ) );
+	// 	b.println( "gutterRight("+ t +") = " + gutterRight( t ) );
 
-		b.guideX( cols( t ) );
+	// 	b.guideX( gutterLeft( t ) );
 
-		b.guideX( gutterRight( t ) );
+	// 	b.guideX( cols( t ) );
 
-	}
+	// 	b.guideX( gutterRight( t ) );
+
+	// }
 
 
 	
